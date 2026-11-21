@@ -1,0 +1,10 @@
+google.com
+whatsapp.com
+facebook.com
+youtube.com
+example.com
+github.com
+wikipedia.org
+instagram.com
+tiktok.com
+x.com
