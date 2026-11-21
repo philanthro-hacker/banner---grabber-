@@ -1,0 +1,6 @@
+results*.txt
+report*.txt
+check.py
+lesson6.py
+lesson7.py
+__pycache__/
