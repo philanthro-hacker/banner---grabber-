@@ -1,26 +1,37 @@
 import socket
 
-target = input("Target: ").strip()
-if target.startswith("http"):
-    target = target.replace("https://", "").replace("http://", "").split("/")[0]
+def grab_banner(target, port):
+    print(f"\nKnocking on {target} port {port}...")
+    try:
+        s = socket.socket()
+        s.settimeout(5)
+        s.connect((target, port))
+        s.sendall(b"HEAD / HTTP/1.0\r\n\r\n")
+        data = s.recv(4096).decode(errors="ignore")
+        s.close()
 
-print(f"\nKnocking on {target} port 80...\n")
+        print("\n--- Server replied: ---")
+        print(data)
+        print("-----------------------")
 
-try:
-    s = socket.socket()
-    s.settimeout(5)
-    s.connect((target, 80))
-    s.sendall(f"HEAD / HTTP/1.0\r\nHost: {target}\r\n\r\n".encode())
-    data = s.recv(2048).decode(errors="ignore")
-    s.close()
-    print("--- Server replied: ---")
-    print(data)
-    print("-----------------------")
-    for line in data.splitlines():
-        if "Server:" in line or "server:" in line:
-            print(f"\n🎯 FOUND IT: {line.strip()}")
-            break
-    else:
-        print("\nNo Server header, but we got a real reply - so it's really there.")
-except Exception as e:
-    print(f"Failed: {e}")
+        for line in data.splitlines():
+            if "Server:" in line:
+                print(f"FOUND IT: {line.strip()}")
+                return
+        print("No Server header found - site is hiding it.")
+
+    except Exception as e:
+        print(f"Could not connect: {e}")
+
+print("=== Banner Grabber V2 ===")
+target = input("Target (or type 'all' to use sites.txt): ").strip()
+port = int(input("Port (try 80): ").strip() or 80)
+
+if target.lower() == "all":
+    with open("sites.txt") as f:
+        for site in f:
+            site = site.strip()
+            if site:
+                grab_banner(site, port)
+else:
+    grab_banner(target, port)
