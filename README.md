@@ -1,29 +1,22 @@
-# Uptime Monitor - Built on Termux
+# Banner Grabber + Recon Toolkit
 
-A Python website monitor that checks if websites are ONLINE/OFFLINE every 10 seconds and sends an ALERT when a site goes DOWN.
+Tools built in Termux on Android.
+Built to work even on networks that fake open ports.
 
-Built on a phone in Douala, Cameroon using Termux + Python + curl.
+## Tools
+- banner.py - Grab banner from one host/port
+- scanner.py - Basic port scanner (naive)
+- scanner2.py - Verified scanner, filters FAKE ports
+- recon.py - Combined scanner + banner grabber
+
+## Usage
+python recon.py
+Target: scanme.nmap.org
 
 ## Features
-- Checks multiple sites from sites.txt
-- Uses curl for real HTTP status codes
-- Loops forever with time.sleep()
-- Remembers last status
-- ALERT when site goes DOWN
-- BACK ONLINE message when it recovers
-- Saves alerts to alerts.txt
+- Detects FAKE open ports from carrier proxies
+- Verifies with real banner
+- Tested on scanme.nmap.org: found 22, 80, 9929
 
-## How to run
-python lesson10.py
-
-## Files
-- lesson10.py - Main monitor with alerts
-- lesson9.py - Auto monitor
-- lesson8.py - One-time monitor
-- sites.txt - List of websites to check
-- alerts.txt - Saved alerts
-
-## Example Output
-https://google.com ONLINE! 200
-🚨 ALERT! https://facebook.com WENT DOWN
-✅ https://facebook.com is BACK ONLINE! 200
+## Disclaimer
+For learning and authorized testing only.
